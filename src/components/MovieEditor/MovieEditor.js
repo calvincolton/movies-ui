@@ -43,9 +43,17 @@ const MovieEditor = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const headers = {
-    //   "Content-Type": "application/JSON",
+    // without axios:
+    // const data = new FormData(e.target);
+    // const payload = Object.fromEntries(data.entries());
+    // const requestOptions = {
+    //   method: "POST",
+    //   body: JSON.stringify(payload),
     // };
+    // fetch("http://localhost:4000/v1/signin", requestOptions)
+    //   .then((res) => res.json())
+    //   .then((res) => setJwt(res.response))
+    //   .catch((err) => setError(new Error(err).message));
     const createMovie = async () => {
       try {
         const res = await axios.post(`http://localhost:4000/v1/movies`, movie);

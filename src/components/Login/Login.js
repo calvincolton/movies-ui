@@ -16,21 +16,29 @@ const Login = ({ setJwt }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // without axios:
+    // const data = new FormData(e.target);
+    // const payload = Object.fromEntries(data.entries());
     // const requestOptions = {
     //   method: "POST",
     //   body: JSON.stringify(payload),
-    // }
+    // };
+    // fetch("http://localhost:4000/v1/signin", requestOptions)
+    //   .then((res) => res.json())
+    //   .then((res) => setJwt(res.response))
+    //   .catch((err) => setError(new Error(err).message));
+    // NOTE: axios blocked by cors request for some reason
     try {
-      const res = await axios.post("http://localhost:4000/v1/signin");
+      const res = await axios.post(
+        "http://localhost:4000/v1/signin",
+        credentials
+      );
       console.log(res.data);
-      setJwt("");
+      setJwt(res.data.response);
     } catch (err) {
       setError(new Error(err).message);
     }
   };
-
-  console.log(credentials);
-  // console.log(error);
 
   return (
     <div>
