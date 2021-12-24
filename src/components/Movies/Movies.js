@@ -26,12 +26,17 @@ const Movies = () => {
   }
 
   return (
-    <div className="movies row">
+    <div className="movies d-flex flex-column">
       <h2>Movies</h2>
+      <div className="mt-2 mb-4 d-flex">
+        <Link to="/movies/new">
+          <button className="btn btn-primary">Add Movie</button>
+        </Link>
+      </div>
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <ul>
+        <ul className="d-flex flex-column">
           {movies.map(({ id, title }) => (
             <li key={id}>
               <Link to={`/movies/${id}`}>{title}</Link>

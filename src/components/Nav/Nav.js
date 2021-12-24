@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const Nav = () => {
-  const [showCategories, setShowCategories] = useState(false);
-
+const Nav = ({ jwt }) => {
   return (
     <nav>
       <ul className="list-group">
@@ -14,26 +13,20 @@ const Nav = () => {
           <Link to="/movies">Movies</Link>
         </li>
         <li className="list-group-item">
-          <div onClick={() => setShowCategories((prevState) => !prevState)}>
-            Categories
-          </div>
-          {showCategories && (
-            <ul>
-              <li>
-                <Link to="/categories/drama">Drama</Link>
-              </li>
-              <li>
-                <Link to="/categories/comedy">Comedy</Link>
-              </li>
-            </ul>
-          )}
+          <Link to="/genres">Genres</Link>
         </li>
-        <li className="list-group-item">
-          <Link to="/admin">Manage Catalogue</Link>
-        </li>
+        {jwt.length > 0 && (
+          <li className="list-group-item">
+            <Link to="/admin">Manage Catalogue</Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
+};
+
+Nav.propTypes = {
+  jwt: PropTypes.string,
 };
 
 export default Nav;
