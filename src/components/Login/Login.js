@@ -33,8 +33,14 @@ const Login = ({ setJwt }) => {
         "http://localhost:4000/v1/signin",
         credentials
       );
-      console.log(res.data);
       setJwt(res.data.response);
+      // set the cookie
+      const date = new Date();
+      const expDays = 1;
+      date.setTime(date.getTime() + expDays * 24 * 60 * 60 * 1000);
+      const expires = "expires=" + date.toUTCString();
+      document.cookie = `jwt=${res.data.response}; ${expires}; path=/; SameSite=Strict; Secure;path=/; SameSite=Strict; Secure;`;
+      // window.localStorage.setItem("jwt", res.data.response);
     } catch (err) {
       setError(new Error(err).message);
     }
@@ -64,11 +70,7 @@ const Login = ({ setJwt }) => {
           className="form-control"
         />
         {error && <div className="alert">{error}</div>}
-        <button
-          className="btn btn-primary mt-4 float-right"
-          type="submit"
-          onClick={() => console.log("login")}
-        >
+        <button className="btn btn-primary mt-4 float-right" type="submit">
           Log in
         </button>
       </form>

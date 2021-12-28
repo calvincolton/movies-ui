@@ -17,7 +17,7 @@ const Nav = ({ jwt }) => {
         </li>
         {jwt.length > 0 && (
           <li className="list-group-item">
-            <Link to="/admin">Manage Catalogue</Link>
+            <Link to="/graphql">GraphQL</Link>
           </li>
         )}
       </ul>

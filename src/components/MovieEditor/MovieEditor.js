@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import PropTypes from "prop-types";
 
-const MovieEditor = () => {
+const MovieEditor = ({ jwt }) => {
   const navigate = useNavigate();
   const { movieId } = useParams();
   const [movie, setMovie] = useState({
@@ -16,6 +17,12 @@ const MovieEditor = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!jwt.length) {
+      navigate("/login");
+    }
+  }, []);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -54,9 +61,19 @@ const MovieEditor = () => {
     //   .then((res) => res.json())
     //   .then((res) => setJwt(res.response))
     //   .catch((err) => setError(new Error(err).message));
+
     const createMovie = async () => {
       try {
-        const res = await axios.post(`http://localhost:4000/v1/movies`, movie);
+        const res = await axios({
+          method: "post",
+          url: "http://localhost:4000/v1/movies",
+          data: movie,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwt}`,
+          },
+        });
+        // const res = await axios.post(`http://localhost:4000/v1/movies`, movie);
         const newMovieId = res.data.id;
         navigate(`/movies/${newMovieId}`);
       } catch (e) {
@@ -187,6 +204,10 @@ const MovieEditor = () => {
       </div>
     </div>
   );
+};
+
+MovieEditor.propTypes = {
+  jwt: PropTypes.string,
 };
 
 export default MovieEditor;
